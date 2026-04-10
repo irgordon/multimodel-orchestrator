@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/plan.schema.json",
+  "title": "PlanSchema",
+  "description": "Canonical schema for plan.yaml — produced in Phase 1 (Planning). Immutable after planning approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["plan_version", "spec_ref", "tasks"],
+  "properties": {
+    "plan_version": {
+      "type": "string",
+      "description": "Schema version identifier. MUST be 'v3'.",
+      "enum": ["v3"]
+    },
+    "spec_ref": {
+      "type": "object",
+      "description": "Reference to the spec.yaml that generated this plan.",
+      "additionalProperties": false,
+      "required": ["spec_hash"],
+      "properties": {
+        "spec_hash": {
+          "type": "string",
+          "description": "SHA-256 hex digest of the canonical JSON of spec.yaml.",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "description": "Ordered list of tasks. IDs must be unique. Dependency graph must be acyclic.",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/Task" }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "author": { "type": "string" }
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "phase", "scope", "required_invariants", "risk_level", "dependencies"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task identifier within this plan.",
+          "pattern": "^task-[a-z0-9_-]+$"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable summary of the task.",
+          "minLength": 1
+        },
+        "phase": {
+          "type": "string",
+          "description": "Execution phase. Determines which model role handles this task.",
+          "enum": ["generate", "patch", "refactor", "analysis"]
+        },
+        "scope": {
+          "type": "array",
+          "description": "List of file or module paths this task is permitted to write. Used for write-scope overlap detection.",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "required_invariants": {
+          "type": "array",
+          "description": "Invariant predicates that must hold after this task completes.",
+          "items": { "$ref": "#/definitions/InvariantRef" }
+        },
+        "risk_level": {
+          "type": "integer",
+          "description": "0=single file; 1=multi-file same module; 2=cross-module interface; 3=architectural boundary.",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "IDs of tasks that must reach 'completed' state before this task may start.",
+          "items": { "type": "string", "pattern": "^task-[a-z0-9_-]+$" },
+          "uniqueItems": true
+        },
+        "retry": {
+          "$ref": "#/definitions/RetryPolicy"
+        }
+      }
+    },
+    "InvariantRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["predicate_id", "parameters"],
+      "properties": {
+        "predicate_id": {
+          "type": "string",
+          "description": "References a predicate_id in invariants/predicate_definitions.json.",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Predicate-specific parameters. Must conform to the predicate's input schema."
+        }
+      }
+    },
+    "RetryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of execution attempts for this task. Overrides global max_attempts_per_task if set."
+        }
+      }
+    }
+  }
+}

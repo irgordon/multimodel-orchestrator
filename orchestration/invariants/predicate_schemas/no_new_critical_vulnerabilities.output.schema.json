@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/no_new_critical_vulnerabilities.output",
+  "title": "NoNewCriticalVulnerabilitiesOutput",
+  "description": "Output structure for the no_new_critical_vulnerabilities predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "passed", "before_critical_count", "after_critical_count"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["no_new_critical_vulnerabilities"] },
+    "passed": {
+      "type": "boolean",
+      "description": "True iff after_critical_count <= before_critical_count."
+    },
+    "before_critical_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of critical vulnerabilities detected before the task."
+    },
+    "after_critical_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of critical vulnerabilities detected after the task."
+    },
+    "new_vulnerability_ids": {
+      "type": "array",
+      "description": "Identifiers of vulnerabilities present after but not before. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    }
+  }
+}

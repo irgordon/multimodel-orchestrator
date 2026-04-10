@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/symbol_table_stable.output",
+  "title": "SymbolTableStableOutput",
+  "description": "Output structure for the symbol_table_stable predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "passed", "added_symbols", "removed_symbols"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["symbol_table_stable"] },
+    "passed": {
+      "type": "boolean",
+      "description": "True iff the exported symbol table diff is empty."
+    },
+    "added_symbols": {
+      "type": "array",
+      "description": "Symbols present after but not before. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    },
+    "removed_symbols": {
+      "type": "array",
+      "description": "Symbols present before but not after. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    }
+  }
+}

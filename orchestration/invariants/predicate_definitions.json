@@ -1,0 +1,82 @@
+{
+  "schema_version": "v3",
+  "description": "Canonical list of machine-verifiable invariant predicate IDs and their parameter declarations. Each entry defines one predicate that can be referenced in plan.yaml required_invariants. All predicates must be implemented in the deterministic toolchain.",
+  "predicates": [
+    {
+      "predicate_id": "public_headers_unchanged",
+      "description": "The SHA-256 hash of all public header files must be identical before and after the task.",
+      "parameters": [
+        {
+          "name": "header_glob",
+          "type": "string",
+          "required": true,
+          "description": "Glob pattern identifying public header files (e.g., 'include/**/*.h')."
+        }
+      ],
+      "input_schema": "predicate_schemas/public_headers_unchanged.input.schema.json",
+      "output_schema": "predicate_schemas/public_headers_unchanged.output.schema.json"
+    },
+    {
+      "predicate_id": "symbol_table_stable",
+      "description": "The exported symbol table diff between the before and after snapshots must be empty.",
+      "parameters": [
+        {
+          "name": "binary_path",
+          "type": "string",
+          "required": true,
+          "description": "Path to the compiled binary or shared library to inspect."
+        }
+      ],
+      "input_schema": "predicate_schemas/symbol_table_stable.input.schema.json",
+      "output_schema": "predicate_schemas/symbol_table_stable.output.schema.json"
+    },
+    {
+      "predicate_id": "openapi_surface_stable",
+      "description": "The set of public OpenAPI paths must be identical before and after the task.",
+      "parameters": [
+        {
+          "name": "openapi_spec_path",
+          "type": "string",
+          "required": true,
+          "description": "Path to the OpenAPI spec file (JSON or YAML)."
+        }
+      ],
+      "input_schema": "predicate_schemas/openapi_surface_stable.input.schema.json",
+      "output_schema": "predicate_schemas/openapi_surface_stable.output.schema.json"
+    },
+    {
+      "predicate_id": "allowed_hosts_monotone",
+      "description": "The set of allowed hosts after the task must be a superset of the set before.",
+      "parameters": [
+        {
+          "name": "config_path",
+          "type": "string",
+          "required": true,
+          "description": "Path to the network policy or allowed-hosts configuration file."
+        }
+      ],
+      "input_schema": "predicate_schemas/allowed_hosts_monotone.input.schema.json",
+      "output_schema": "predicate_schemas/allowed_hosts_monotone.output.schema.json"
+    },
+    {
+      "predicate_id": "no_new_critical_vulnerabilities",
+      "description": "The count of critical-severity vulnerabilities after the task must not exceed the count before.",
+      "parameters": [
+        {
+          "name": "scan_target",
+          "type": "string",
+          "required": true,
+          "description": "File path or directory to pass to the vulnerability scanner."
+        },
+        {
+          "name": "scanner_id",
+          "type": "string",
+          "required": true,
+          "description": "Identifier of the deterministic vulnerability scanner to use."
+        }
+      ],
+      "input_schema": "predicate_schemas/no_new_critical_vulnerabilities.input.schema.json",
+      "output_schema": "predicate_schemas/no_new_critical_vulnerabilities.output.schema.json"
+    }
+  ]
+}

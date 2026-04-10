@@ -1,0 +1,60 @@
+plan_version: v3
+
+spec_ref:
+  spec_hash: "a3f1e2d4c5b6a7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2"
+
+tasks:
+  - id: task-generate-jwt-validator
+    description: "Generate the JWT validation utility module under services/payments/src/auth/."
+    phase: generate
+    scope:
+      - "services/payments/src/auth/jwt_validator.js"
+      - "services/payments/src/auth/index.js"
+    required_invariants:
+      - predicate_id: no_new_critical_vulnerabilities
+        parameters:
+          scan_target: "services/payments/src/auth"
+          scanner_id: "trivy-v0.50.0"
+    risk_level: 1
+    dependencies: []
+
+  - id: task-patch-router-middleware
+    description: "Patch the payments service router to insert JWT authentication middleware before rate-limiting."
+    phase: patch
+    scope:
+      - "services/payments/src/router.js"
+    required_invariants:
+      - predicate_id: openapi_surface_stable
+        parameters:
+          openapi_spec_path: "services/payments/openapi.yaml"
+    risk_level: 1
+    dependencies:
+      - task-generate-jwt-validator
+
+  - id: task-generate-auth-tests
+    description: "Generate unit tests for the JWT validation utility and integration tests for the authenticated routes."
+    phase: generate
+    scope:
+      - "services/payments/test/auth/jwt_validator.test.js"
+      - "services/payments/test/auth/router_auth.test.js"
+    required_invariants: []
+    risk_level: 0
+    dependencies:
+      - task-generate-jwt-validator
+
+  - id: task-patch-openapi-security-schemes
+    description: "Patch the OpenAPI spec to add the BearerAuth security scheme and apply it to all existing endpoints."
+    phase: patch
+    scope:
+      - "services/payments/openapi.yaml"
+    required_invariants:
+      - predicate_id: openapi_surface_stable
+        parameters:
+          openapi_spec_path: "services/payments/openapi.yaml"
+    risk_level: 2
+    dependencies:
+      - task-patch-router-middleware
+
+metadata:
+  created_at: "2026-04-10T23:10:44Z"
+  author: "planner"

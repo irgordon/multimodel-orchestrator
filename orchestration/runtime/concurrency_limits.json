@@ -1,0 +1,50 @@
+{
+  "schema_version": "v3",
+  "description": "Concurrency limits and scheduling constraints for the multi-model orchestration pipeline.",
+  "concurrency": {
+    "max_parallel_tasks": 4,
+    "description": "Maximum number of tasks that may execute concurrently within a single run. Tasks beyond this limit are queued in deterministic topological order with lexicographic tie-breaking."
+  },
+  "retry": {
+    "max_attempts_per_task": 3,
+    "description": "Maximum number of execution attempts for a single task across all failure classes. Exceeding this limit transitions the task to 'failed' and the run to FAILED_TERMINAL if no other tasks can proceed."
+  },
+  "replanning": {
+    "max_replan_cycles": 2,
+    "description": "Maximum number of REPLAN_REQUIRED transitions permitted for a single run. Exceeding this limit transitions the run to FAILED_TERMINAL."
+  },
+  "timeouts": {
+    "timeout_per_phase": {
+      "phase_0_problem_intake": 300,
+      "phase_1_planning": 600,
+      "phase_2_generation": 1800,
+      "phase_3_patch_refactor": 1800,
+      "phase_4_integration": 300,
+      "phase_5_verification": 900,
+      "unit": "seconds",
+      "description": "Maximum wall-clock time allowed for each phase. Exceeding a phase timeout triggers an infrastructure failure and retries the phase without replanning, up to max_attempts_per_task."
+    }
+  },
+  "scheduling_constraints": [
+    {
+      "id": "disjoint_dependency_subgraphs",
+      "description": "Two tasks may only run concurrently if their dependency subgraphs are disjoint. A task's dependency subgraph includes all transitive predecessors."
+    },
+    {
+      "id": "non_overlapping_write_scopes",
+      "description": "Two tasks may only run concurrently if their declared write scopes have no overlapping paths. Overlap detection is performed by scope_conflict.js."
+    },
+    {
+      "id": "deterministic_ordering",
+      "description": "When multiple tasks are eligible for scheduling simultaneously, they are ordered lexicographically by task ID. This tie-breaking rule is applied at every scheduling decision point."
+    },
+    {
+      "id": "path_level_locks",
+      "description": "A workspace path may only be written by one task at a time. The scheduler must acquire a path-level lock before a task's write phase begins and release it after the write is committed or rolled back."
+    },
+    {
+      "id": "completion_eligibility_atomic",
+      "description": "A task's completion eligibility is evaluated atomically only after its verification.json entry is fully written and fsync'd. No task may transition to 'completed' before this condition is met."
+    }
+  ]
+}

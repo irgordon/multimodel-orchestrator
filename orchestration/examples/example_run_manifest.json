@@ -1,0 +1,129 @@
+{
+  "run_id": "a3f1e2d4c5b6a7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2",
+  "schema_version": "v3",
+  "entries": [
+    {
+      "sequence_number": 1,
+      "timestamp": "2026-04-10T23:10:44Z",
+      "event_type": "RUN_STARTED",
+      "payload": {
+        "run_id": "a3f1e2d4c5b6a7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2",
+        "spec_hash": "b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2",
+        "plan_hash": "c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3",
+        "workspace_snapshot_hash": "d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4"
+      },
+      "checksum": "e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5"
+    },
+    {
+      "sequence_number": 2,
+      "timestamp": "2026-04-10T23:10:45Z",
+      "event_type": "PHASE_STARTED",
+      "payload": {
+        "phase": 2,
+        "phase_name": "generation",
+        "timeout_seconds": 1800
+      },
+      "checksum": "f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6"
+    },
+    {
+      "sequence_number": 3,
+      "timestamp": "2026-04-10T23:10:46Z",
+      "event_type": "TASK_STATE_CHANGED",
+      "payload": {
+        "task_id": "task-generate-jwt-validator",
+        "from_state": "pending",
+        "to_state": "running",
+        "attempt_number": 1
+      },
+      "checksum": "a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7"
+    },
+    {
+      "sequence_number": 4,
+      "timestamp": "2026-04-10T23:11:10Z",
+      "event_type": "ARTIFACT_COMMITTED",
+      "payload": {
+        "artifact_path": "proposed/task-generate-jwt-validator/services/payments/src/auth/jwt_validator.js",
+        "artifact_hash": "b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+        "artifact_type": "proposed"
+      },
+      "checksum": "c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9"
+    },
+    {
+      "sequence_number": 5,
+      "timestamp": "2026-04-10T23:11:10Z",
+      "event_type": "ARTIFACT_COMMITTED",
+      "payload": {
+        "artifact_path": "proposed/task-generate-jwt-validator/services/payments/src/auth/index.js",
+        "artifact_hash": "d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0",
+        "artifact_type": "proposed"
+      },
+      "checksum": "e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1"
+    },
+    {
+      "sequence_number": 6,
+      "timestamp": "2026-04-10T23:11:11Z",
+      "event_type": "INVARIANT_EVALUATED",
+      "payload": {
+        "task_id": "task-generate-jwt-validator",
+        "predicate_id": "no_new_critical_vulnerabilities",
+        "passed": true,
+        "details": {
+          "before_critical_count": 0,
+          "after_critical_count": 0,
+          "new_vulnerability_ids": []
+        }
+      },
+      "checksum": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2"
+    },
+    {
+      "sequence_number": 7,
+      "timestamp": "2026-04-10T23:11:12Z",
+      "event_type": "VERIFICATION_RECORDED",
+      "payload": {
+        "task_id": "task-generate-jwt-validator",
+        "build_status": "passed",
+        "tests_status": "passed",
+        "static_analysis_status": "passed",
+        "policy_checks_status": "passed",
+        "invariant_results": [
+          {
+            "predicate_id": "no_new_critical_vulnerabilities",
+            "passed": true
+          }
+        ]
+      },
+      "checksum": "a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3"
+    },
+    {
+      "sequence_number": 8,
+      "timestamp": "2026-04-10T23:11:13Z",
+      "event_type": "TASK_STATE_CHANGED",
+      "payload": {
+        "task_id": "task-generate-jwt-validator",
+        "from_state": "running",
+        "to_state": "completed",
+        "attempt_number": 1
+      },
+      "checksum": "b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4"
+    },
+    {
+      "sequence_number": 9,
+      "timestamp": "2026-04-10T23:12:00Z",
+      "event_type": "PHASE_COMPLETED",
+      "payload": {
+        "phase": 2,
+        "phase_name": "generation"
+      },
+      "checksum": "c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5"
+    },
+    {
+      "sequence_number": 10,
+      "timestamp": "2026-04-10T23:12:30Z",
+      "event_type": "RUN_COMPLETED",
+      "payload": {
+        "reason": "All tasks completed successfully and all invariants passed."
+      },
+      "checksum": "d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6"
+    }
+  ]
+}

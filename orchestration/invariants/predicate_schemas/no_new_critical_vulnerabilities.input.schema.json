@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/no_new_critical_vulnerabilities.input",
+  "title": "NoNewCriticalVulnerabilitiesInput",
+  "description": "Input structure for the no_new_critical_vulnerabilities predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "scan_target", "scanner_id", "before_snapshot_hash", "after_snapshot_hash"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["no_new_critical_vulnerabilities"] },
+    "scan_target": {
+      "type": "string",
+      "description": "File path or directory to scan, relative to workspace root.",
+      "minLength": 1
+    },
+    "scanner_id": {
+      "type": "string",
+      "description": "Identifier of the deterministic vulnerability scanner to use.",
+      "minLength": 1
+    },
+    "before_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot before the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "after_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot after the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

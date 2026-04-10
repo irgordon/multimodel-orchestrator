@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/openapi_surface_stable.input",
+  "title": "OpenApiSurfaceStableInput",
+  "description": "Input structure for the openapi_surface_stable predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "openapi_spec_path", "before_snapshot_hash", "after_snapshot_hash"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["openapi_surface_stable"] },
+    "openapi_spec_path": {
+      "type": "string",
+      "description": "Path to the OpenAPI spec file (JSON or YAML), relative to workspace root.",
+      "minLength": 1
+    },
+    "before_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot before the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "after_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot after the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

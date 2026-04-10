@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/openapi_surface_stable.output",
+  "title": "OpenApiSurfaceStableOutput",
+  "description": "Output structure for the openapi_surface_stable predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "passed", "added_paths", "removed_paths"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["openapi_surface_stable"] },
+    "passed": {
+      "type": "boolean",
+      "description": "True iff the set of public OpenAPI paths is identical before and after."
+    },
+    "added_paths": {
+      "type": "array",
+      "description": "Paths present after but not before. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    },
+    "removed_paths": {
+      "type": "array",
+      "description": "Paths present before but not after. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/run_manifest.schema.json",
+  "title": "RunManifestSchema",
+  "description": "Schema for run_manifest.json — an append-only record of all phase transitions, task state changes, and verification outcomes for a single run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "schema_version", "entries"],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "SHA-256 hex digest uniquely identifying this run.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["v3"]
+    },
+    "entries": {
+      "type": "array",
+      "description": "Append-only list of manifest entries. sequence_number must be strictly monotonically increasing starting at 1.",
+      "items": { "$ref": "#/definitions/ManifestEntry" }
+    }
+  },
+  "definitions": {
+    "ManifestEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_number", "timestamp", "event_type", "payload"],
+      "properties": {
+        "sequence_number": {
+          "type": "integer",
+          "description": "Strictly monotonically increasing integer starting at 1.",
+          "minimum": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "UTC timestamp in RFC 3339 / ISO 8601 format.",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "description": "Discriminator for the payload type.",
+          "enum": [
+            "RUN_STARTED",
+            "PHASE_STARTED",
+            "PHASE_COMPLETED",
+            "TASK_STATE_CHANGED",
+            "INVARIANT_EVALUATED",
+            "VERIFICATION_RECORDED",
+            "ARTIFACT_COMMITTED",
+            "RUN_COMPLETED",
+            "RUN_FAILED_TERMINAL",
+            "REPLAN_REQUIRED"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "description": "Event-specific payload. Must conform to the sub-schema for event_type."
+        },
+        "checksum": {
+          "type": "string",
+          "description": "Optional checksum chain. SHA-256(canonical_json(payload) || previous_checksum). Hex encoded.",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "RunStartedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "spec_hash", "plan_hash", "workspace_snapshot_hash"],
+      "properties": {
+        "run_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "spec_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "plan_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "workspace_snapshot_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "PhasePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase"],
+      "properties": {
+        "phase": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "phase_name": { "type": "string" },
+        "timeout_seconds": { "type": "number", "minimum": 0 }
+      }
+    },
+    "TaskStateChangedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "from_state", "to_state"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "from_state": {
+          "type": "string",
+          "enum": ["pending", "running", "completed", "failed", "blocked", "skipped"]
+        },
+        "to_state": {
+          "type": "string",
+          "enum": ["pending", "running", "completed", "failed", "blocked", "skipped"]
+        },
+        "attempt_number": { "type": "integer", "minimum": 1 },
+        "failure_class": {
+          "type": "string",
+          "enum": ["local", "structural", "infrastructure"]
+        },
+        "reason": { "type": "string" }
+      }
+    },
+    "InvariantEvaluatedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "predicate_id", "passed"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "predicate_id": { "type": "string" },
+        "passed": { "type": "boolean" },
+        "details": { "type": "object" }
+      }
+    },
+    "VerificationRecordedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "build_status", "tests_status", "static_analysis_status", "policy_checks_status", "invariant_results"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "build_status": { "type": "string", "enum": ["passed", "failed", "skipped"] },
+        "tests_status": { "type": "string", "enum": ["passed", "failed", "skipped"] },
+        "static_analysis_status": { "type": "string", "enum": ["passed", "failed", "skipped"] },
+        "policy_checks_status": { "type": "string", "enum": ["passed", "failed", "skipped"] },
+        "invariant_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["predicate_id", "passed"],
+            "properties": {
+              "predicate_id": { "type": "string" },
+              "passed": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "ArtifactCommittedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "artifact_hash", "artifact_type"],
+      "properties": {
+        "artifact_path": { "type": "string" },
+        "artifact_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "artifact_type": {
+          "type": "string",
+          "enum": ["spec", "plan", "proposed", "patch", "verification", "log"]
+        }
+      }
+    },
+    "RunTerminalPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string" },
+        "replan_cycle": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/allowed_hosts_monotone.output",
+  "title": "AllowedHostsMonotoneOutput",
+  "description": "Output structure for the allowed_hosts_monotone predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "passed", "before_hosts", "after_hosts", "removed_hosts"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["allowed_hosts_monotone"] },
+    "passed": {
+      "type": "boolean",
+      "description": "True iff after_hosts is a superset of before_hosts."
+    },
+    "before_hosts": {
+      "type": "array",
+      "description": "Sorted list of allowed hosts before the task.",
+      "items": { "type": "string" }
+    },
+    "after_hosts": {
+      "type": "array",
+      "description": "Sorted list of allowed hosts after the task.",
+      "items": { "type": "string" }
+    },
+    "removed_hosts": {
+      "type": "array",
+      "description": "Hosts in before_hosts but not in after_hosts. Must be empty when passed=true.",
+      "items": { "type": "string" }
+    }
+  }
+}

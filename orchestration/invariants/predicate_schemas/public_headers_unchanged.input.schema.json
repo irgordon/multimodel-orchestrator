@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/predicates/public_headers_unchanged.input",
+  "title": "PublicHeadersUnchangedInput",
+  "description": "Input structure for the public_headers_unchanged predicate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate_id", "header_glob", "before_snapshot_hash", "after_snapshot_hash"],
+  "properties": {
+    "predicate_id": { "type": "string", "enum": ["public_headers_unchanged"] },
+    "header_glob": {
+      "type": "string",
+      "description": "Glob pattern identifying public header files.",
+      "minLength": 1
+    },
+    "before_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot before the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "after_snapshot_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the workspace snapshot after the task.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "workspace_root": {
+      "type": "string",
+      "description": "Absolute path to the workspace root used to resolve the glob.",
+      "minLength": 1
+    }
+  }
+}

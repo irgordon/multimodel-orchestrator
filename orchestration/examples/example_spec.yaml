@@ -1,0 +1,47 @@
+spec_version: v3
+
+run_id_seed:
+  toolchain_version: "1.0.0"
+  model_identifiers:
+    planner:
+      name: "reasoning-model-alpha"
+      version: "2026-04"
+    generator:
+      name: "code-gen-beta"
+      version: "2026-04"
+    diff_model:
+      name: "diff-model-gamma"
+      version: "2026-04"
+
+goals:
+  - id: goal-add-auth-middleware
+    description: "Add JWT authentication middleware to all API routes in the payments service."
+  - id: goal-update-openapi-spec
+    description: "Update the OpenAPI spec to reflect the new authentication requirements on all affected endpoints."
+
+constraints:
+  - id: constraint-no-breaking-api-changes
+    description: "The public API surface (paths, methods, response schemas) must not change as a result of this work."
+  - id: constraint-single-service-scope
+    description: "All changes are scoped to the payments service. No other service may be modified."
+
+invariants:
+  - predicate_id: openapi_surface_stable
+    parameters:
+      openapi_spec_path: "services/payments/openapi.yaml"
+  - predicate_id: no_new_critical_vulnerabilities
+    parameters:
+      scan_target: "services/payments"
+      scanner_id: "trivy-v0.50.0"
+
+risk_notes:
+  - id: risk-jwt-secret-rotation
+    risk_level: 2
+    description: "Introducing JWT validation requires a secret rotation strategy. The current environment does not have a secret manager configured."
+  - id: risk-middleware-ordering
+    risk_level: 1
+    description: "Middleware ordering in the payments service router is fragile. Authentication middleware must be inserted before rate-limiting middleware."
+
+metadata:
+  created_at: "2026-04-10T23:10:44Z"
+  author: "planner"

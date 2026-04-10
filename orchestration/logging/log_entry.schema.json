@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestration/schemas/log_entry",
+  "title": "LogEntrySchema",
+  "description": "Schema for a single structured log entry. All entries are append-only, stored under logs/<run_id>/. sequence_number must be strictly monotonically increasing within a log file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "sequence_number",
+    "timestamp",
+    "phase",
+    "actor",
+    "event",
+    "result",
+    "input_artifacts",
+    "output_artifacts"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "SHA-256 hex digest identifying the run this log entry belongs to.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sequence_number": {
+      "type": "integer",
+      "description": "Monotonically increasing integer starting at 1 within this log file.",
+      "minimum": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "UTC timestamp in RFC 3339 / ISO 8601 format (e.g., '2026-04-10T23:10:44Z').",
+      "format": "date-time"
+    },
+    "phase": {
+      "type": "integer",
+      "description": "Phase number (0–5) during which this event occurred.",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "phase_name": {
+      "type": "string",
+      "description": "Human-readable phase name.",
+      "enum": [
+        "problem_intake",
+        "planning",
+        "generation",
+        "patch_refactor",
+        "integration",
+        "verification"
+      ]
+    },
+    "actor": {
+      "type": "string",
+      "description": "Role or component that generated this log entry.",
+      "enum": ["planner", "generator", "diff_model", "verifier", "orchestrator", "scheduler"]
+    },
+    "task_id": {
+      "type": ["string", "null"],
+      "description": "Task ID if this event is scoped to a specific task; null otherwise."
+    },
+    "event": {
+      "type": "string",
+      "description": "Short event identifier.",
+      "minLength": 1
+    },
+    "result": {
+      "type": "string",
+      "description": "Outcome of the event.",
+      "enum": ["success", "failure", "skipped", "in_progress"]
+    },
+    "input_artifacts": {
+      "type": "array",
+      "description": "Paths of artifacts read as inputs for this event.",
+      "items": { "type": "string" }
+    },
+    "output_artifacts": {
+      "type": "array",
+      "description": "Paths of artifacts produced as outputs of this event.",
+      "items": { "type": "string" }
+    },
+    "details": {
+      "type": "object",
+      "description": "Arbitrary structured details specific to the event type. Must be serialisable as canonical JSON."
+    },
+    "checksum": {
+      "type": "string",
+      "description": "Optional checksum chain value: SHA-256(canonical_json(this_entry_without_checksum) || previous_checksum). Hex encoded.",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
