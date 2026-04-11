@@ -96,37 +96,6 @@ function validateScope(scope, taskIndex) {
   return null;
 }
 
-function validateRequiredInvariants(requiredInvariants, taskIndex) {
-  if (requiredInvariants === undefined) {
-    return null;
-  }
-
-  if (!Array.isArray(requiredInvariants)) {
-    return createFailure('Plan task required_invariants must be an array.', {
-      reason: 'invalid_field_type',
-      task_index: taskIndex,
-      field: 'required_invariants',
-      expected: 'array<object>',
-      received: typeof requiredInvariants,
-    });
-  }
-
-  for (let invariantIndex = 0; invariantIndex < requiredInvariants.length; invariantIndex += 1) {
-    if (!isPlainObject(requiredInvariants[invariantIndex])) {
-      return createFailure('Plan task required_invariants contains an invalid entry.', {
-        reason: 'invalid_array_entry',
-        task_index: taskIndex,
-        field: 'required_invariants',
-        index: invariantIndex,
-        expected: 'object',
-        received: Array.isArray(requiredInvariants[invariantIndex]) ? 'array' : typeof requiredInvariants[invariantIndex],
-      });
-    }
-  }
-
-  return null;
-}
-
 module.exports = function plan_schema_validator(input) {
   if (!isPlainObject(input)) {
     return createFailure('Plan must be an object.', {
@@ -216,10 +185,6 @@ module.exports = function plan_schema_validator(input) {
       });
     }
 
-    const requiredInvariantsFailure = validateRequiredInvariants(task.required_invariants, taskIndex);
-    if (requiredInvariantsFailure) {
-      return requiredInvariantsFailure;
-    }
   }
 
   return {
