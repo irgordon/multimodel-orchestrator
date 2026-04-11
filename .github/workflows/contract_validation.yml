@@ -1,0 +1,38 @@
+name: Contract Validation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Fail if package-lock.json is missing
+        run: test -f package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Structural tests
+        run: npm test -- contracts/structural
+
+      - name: Semantic tests
+        run: npm test -- contracts/semantic
+
+      - name: Determinism tests
+        run: npm test -- contracts/determinism
+
+      - name: Safety tests
+        run: npm test -- contracts/safety
