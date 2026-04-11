@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    { "id": "a", "dependencies": [] },
+    { "id": "b", "dependencies": ["a"] },
+    { "id": "c", "dependencies": ["a"] }
+  ],
+  "scope_conflict_map": {
+    "a": [],
+    "b": ["c"],
+    "c": ["b"]
+  }
+}

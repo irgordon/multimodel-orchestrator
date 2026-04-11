@@ -1,0 +1,5 @@
+{
+  "stream": "run_manifest",
+  "entries": ["complete", "complete", "partial"],
+  "expected": "partial_tail_rejected"
+}

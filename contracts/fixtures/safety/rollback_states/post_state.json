@@ -1,0 +1,8 @@
+{
+  "workspace": {
+    "files": [
+      { "path": "workspace/a.txt", "content": "before" }
+    ]
+  },
+  "temp_artifacts": []
+}

@@ -1,0 +1,8 @@
+{
+  "sequence": [
+    "open_temp",
+    "write_temp",
+    "fsync_temp",
+    "rename_temp_to_target"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "no_new_critical_vulnerabilities": {
+    "required": ["dataset", "artifact"],
+    "types": {
+      "dataset": "string",
+      "artifact": "string"
+    }
+  }
+}

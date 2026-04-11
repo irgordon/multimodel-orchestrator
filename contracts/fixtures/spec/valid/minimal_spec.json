@@ -1,0 +1,7 @@
+{
+  "goals": ["deliver contract tests"],
+  "constraints": ["no runtime logic"],
+  "invariants": ["no_new_critical_vulnerabilities"],
+  "risk_notes": ["contract layer only"],
+  "model_identifiers": ["model-a"]
+}

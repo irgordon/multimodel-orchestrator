@@ -1,0 +1,15 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "phase": "execute",
+      "scope": {
+        "writes": ["workspace/a.txt"],
+        "reads": []
+      },
+      "dependencies": ["task-does-not-exist"],
+      "risk_level": "low",
+      "required_invariants": []
+    }
+  ]
+}

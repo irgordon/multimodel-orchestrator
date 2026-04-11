@@ -1,0 +1,7 @@
+{
+  "files": [
+    { "path": "workspace/a.txt", "content": "alpha\n", "mode": "0644" },
+    { "path": "workspace/b.txt", "content": "beta\n", "mode": "0644" }
+  ],
+  "symlinks": []
+}

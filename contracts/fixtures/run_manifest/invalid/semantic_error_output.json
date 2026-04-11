@@ -1,0 +1,9 @@
+{
+  "validator_id": "semantic/plan_dag_validator",
+  "failure_class": "SEMANTIC_INVALID",
+  "error_code": "SEMANTIC_DAG_INVALID",
+  "message": "cycle detected",
+  "details": {
+    "task_id": "task-1"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "predicate_id": "no_new_critical_vulnerabilities",
+  "parameters": {
+    "dataset": "advisory-2026-01",
+    "artifact": "sbom.json"
+  }
+}

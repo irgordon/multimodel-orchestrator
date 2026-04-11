@@ -1,0 +1,50 @@
+{
+  "spec.valid.minimal": "spec/valid/minimal_spec.json",
+  "spec.invalid.missing_required": "spec/invalid/spec_missing_required.json",
+  "spec.invalid.additional_property": "spec/invalid/spec_additional_property.json",
+
+  "plan.valid.minimal": "plan/valid/minimal_plan.json",
+  "plan.invalid.missing_required": "plan/invalid/plan_missing_required.json",
+  "plan.invalid.invalid_enum": "plan/invalid/plan_invalid_enum.json",
+  "plan.invalid.dag_cycle": "plan/invalid/plan_dag_cycle.json",
+  "plan.invalid.duplicate_task_id": "plan/invalid/plan_duplicate_task_id.json",
+  "plan.invalid.missing_dependency": "plan/invalid/plan_missing_dependency.json",
+  "plan.invalid.scope_conflict": "plan/invalid/plan_scope_conflict.json",
+  "plan.invalid.invariant_reference": "plan/invalid/plan_invariant_reference_invalid.json",
+
+  "run_manifest.valid.entries": "run_manifest/valid/entries.ndjson",
+  "run_manifest.invalid.entry_missing_required": "run_manifest/invalid/entry_missing_required.ndjson",
+  "run_manifest.invalid.sequence_non_monotonic": "run_manifest/invalid/sequence_non_monotonic.ndjson",
+  "run_manifest.invalid.checksum_chain": "run_manifest/invalid/checksum_chain_invalid.ndjson",
+  "run_manifest.invalid.partial_entry": "run_manifest/invalid/partial_entry.ndjson",
+  "log_entry.valid.minimal": "run_manifest/valid/log_entry_valid.json",
+  "log_entry.invalid.missing_checksum": "run_manifest/invalid/log_entry_missing_checksum.json",
+  "error_object.valid.structural": "run_manifest/invalid/structural_error_output.json",
+  "error_object.invalid.missing_error_code": "run_manifest/invalid/error_object_missing_error_code.json",
+
+  "predicates.input.stable": "predicates/inputs/stable_input.json",
+  "predicates.output.stable": "predicates/outputs/stable_output.json",
+  "predicates.definitions": "predicates/inputs/predicate_definitions.json",
+  "predicates.schemas": "predicates/inputs/predicate_schemas.json",
+
+  "scheduler.plan.simple": "scheduler/plans/simple_plan.json",
+  "scheduler.expected_order.simple": "scheduler/expected_orders/simple_order.json",
+
+  "snapshots.workspace.sample": "snapshots/workspaces/sample_workspace.json",
+  "snapshots.expected_hash.sample": "snapshots/expected_hashes/sample_hash.json",
+  "snapshots.rules": "snapshots/workspaces/snapshot_rules.md",
+
+  "safety.write_sequence.atomic": "safety/write_sequences/atomic_sequence.json",
+  "safety.crash_trace.atomic": "safety/crash_traces/atomic_crash_trace.json",
+  "safety.crash_trace.log": "safety/crash_traces/log_crash_trace.json",
+  "safety.crash_trace.run_manifest": "safety/crash_traces/run_manifest_crash_trace.json",
+  "safety.rollback.pre_state": "safety/rollback_states/pre_state.json",
+  "safety.rollback.post_state": "safety/rollback_states/post_state.json",
+
+  "error.output.structural": "run_manifest/invalid/structural_error_output.json",
+  "error.output.semantic": "run_manifest/invalid/semantic_error_output.json",
+  "error.contract": "run_manifest/valid/error_code_contract.json",
+
+  "registry.valid": "run_manifest/valid/fixture_registry.json",
+  "registry.invalid.missing_hash": "run_manifest/invalid/fixture_registry_missing_hash.json"
+}

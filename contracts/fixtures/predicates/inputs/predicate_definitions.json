@@ -1,0 +1,11 @@
+{
+  "predicates": [
+    {
+      "predicate_id": "no_new_critical_vulnerabilities",
+      "parameters": {
+        "dataset": "string",
+        "artifact": "string"
+      }
+    }
+  ]
+}

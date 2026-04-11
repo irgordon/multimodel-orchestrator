@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "fixtures": [
+    {
+      "id": "spec.valid.minimal",
+      "path": "spec/valid/minimal_spec.json",
+      "hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "id": "plan.valid.minimal",
+      "path": "plan/valid/minimal_plan.json",
+      "hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ]
+}
