@@ -25,7 +25,7 @@ function getType(value) {
 }
 
 function isPlainObject(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
 function createFailure(message, details) {
