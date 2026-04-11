@@ -49,7 +49,7 @@ function getEntryPropertyDrift(entry) {
 }
 
 function validateEntryTypes(entry, index) {
-  if (typeof entry.sequence_number !== 'number' || !Number.isFinite(entry.sequence_number)) {
+  if (typeof entry.sequence_number !== 'number') {
     return createFailure('Run manifest entry has an invalid field type.', {
       reason: 'invalid_field_type',
       entry_index: index,
