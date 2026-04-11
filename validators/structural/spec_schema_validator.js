@@ -45,9 +45,8 @@ function validateStringArray(fieldName, value) {
     });
   }
 
-  for (let index = 0; index < value.length; index += 1) {
-    const item = value[index];
-    if (typeof item !== 'string' || item.trim().length === 0) {
+  for (const [index, item] of value.entries()) {
+    if (typeof item !== 'string') {
       return createFailure(`Spec field '${fieldName}' contains an invalid entry.`, {
         field: fieldName,
         index,
@@ -62,7 +61,7 @@ function validateStringArray(fieldName, value) {
 function buildNormalizedSpec(spec) {
   const normalized = {};
   for (const field of REQUIRED_FIELDS) {
-    normalized[field] = spec[field].map((item) => item.trim());
+    normalized[field] = spec[field].slice();
   }
   return normalized;
 }
