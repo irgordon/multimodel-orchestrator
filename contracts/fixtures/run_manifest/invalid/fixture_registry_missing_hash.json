@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "fixtures": [
+    {
+      "id": "spec.valid.minimal",
+      "path": "spec/valid/minimal_spec.json"
+    }
+  ]
+}

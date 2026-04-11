@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "phase": "plan",
+      "scope": {
+        "writes": ["workspace/a.txt"],
+        "reads": []
+      },
+      "dependencies": [],
+      "risk_level": "low",
+      "required_invariants": [
+        {
+          "predicate_id": "unknown_predicate",
+          "parameters": {
+            "dataset": "missing"
+          }
+        }
+      ]
+    }
+  ]
+}

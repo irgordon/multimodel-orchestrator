@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "phase": "unknown_phase",
+      "scope": {
+        "writes": ["workspace/a.txt"],
+        "reads": ["spec.yaml"]
+      },
+      "dependencies": [],
+      "risk_level": "critical"
+    }
+  ]
+}

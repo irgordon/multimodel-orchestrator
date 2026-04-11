@@ -1,0 +1,4 @@
+{
+  "crash_points": ["before_write", "after_write_before_rename", "after_rename"],
+  "expected": "target_file_is_old_or_new_never_partial"
+}

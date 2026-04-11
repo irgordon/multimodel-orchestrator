@@ -1,0 +1,33 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "phase": "plan",
+      "scope": {
+        "writes": ["workspace/a.txt"],
+        "reads": ["spec.yaml"]
+      },
+      "dependencies": [],
+      "risk_level": "low",
+      "required_invariants": [
+        {
+          "predicate_id": "no_new_critical_vulnerabilities",
+          "parameters": {
+            "dataset": "advisory-2026-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "task-2",
+      "phase": "execute",
+      "scope": {
+        "writes": ["workspace/b.txt"],
+        "reads": ["workspace/a.txt"]
+      },
+      "dependencies": ["task-1"],
+      "risk_level": "medium",
+      "required_invariants": []
+    }
+  ]
+}

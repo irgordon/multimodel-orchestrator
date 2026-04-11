@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {
+      "id": "task-1",
+      "phase": "plan",
+      "scope": {
+        "writes": ["workspace/a.txt"],
+        "reads": ["spec.yaml"]
+      },
+      "dependencies": []
+    }
+  ]
+}

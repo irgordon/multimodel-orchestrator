@@ -1,0 +1,8 @@
+{
+  "validator_id": "structural/spec_schema_validator",
+  "failure_class": "STRUCTURAL_INVALID",
+  "message": "schema failed",
+  "details": {
+    "path": "/invariants"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "predicate_id": "no_new_critical_vulnerabilities",
+  "result": true,
+  "dataset_version": "advisory-2026-01"
+}
