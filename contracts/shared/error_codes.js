@@ -3,6 +3,7 @@
 const ERROR_CODES_BY_VALIDATOR = Object.freeze({
   'structural/spec_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
   'structural/plan_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
+  'structural/run_manifest_container_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
   'structural/run_manifest_entry_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
   'structural/log_entry_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
   'structural/error_object_schema_validator': Object.freeze(['STRUCTURAL_SCHEMA_INVALID']),
