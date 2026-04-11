@@ -11,6 +11,8 @@ const REQUIRED_ENTRY_FIELDS = Object.freeze([
   'payload',
   'checksum',
 ]);
+const OPTIONAL_ENTRY_FIELDS = Object.freeze(['previous_checksum']);
+const ALLOWED_ENTRY_FIELDS = Object.freeze([...REQUIRED_ENTRY_FIELDS, ...OPTIONAL_ENTRY_FIELDS]);
 
 function getType(value) {
   if (Array.isArray(value)) {
@@ -42,7 +44,7 @@ function createFailure(message, details) {
 function getEntryPropertyDrift(entry) {
   const keys = Object.keys(entry);
   const missing = REQUIRED_ENTRY_FIELDS.filter((field) => !Object.prototype.hasOwnProperty.call(entry, field));
-  const additional = keys.filter((key) => !REQUIRED_ENTRY_FIELDS.includes(key));
+  const additional = keys.filter((key) => !ALLOWED_ENTRY_FIELDS.includes(key));
   return { missing, additional };
 }
 
@@ -94,6 +96,19 @@ function validateEntryTypes(entry, index) {
       field: 'checksum',
       expected: 'string',
       received: getType(entry.checksum),
+    });
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(entry, 'previous_checksum')
+    && typeof entry.previous_checksum !== 'string'
+  ) {
+    return createFailure('Run manifest entry has an invalid field type.', {
+      reason: 'invalid_field_type',
+      entry_index: index,
+      field: 'previous_checksum',
+      expected: 'string',
+      received: getType(entry.previous_checksum),
     });
   }
 
